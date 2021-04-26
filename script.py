@@ -7,51 +7,45 @@ from collections import defaultdict
 import iatikit
 
 output_path = Path('out', 'data')
-keys_path = Path('out', '~all_keys.json')
 maxlen = 500
 
 def sanitize(text):
     return re.sub(r'[^\w\d-]', '_', text).upper()
 
-if __name__ == '__main__':
-    if len(sys.argv) > 1 and sys.argv[1] == '--fast':
-        with open(keys_path) as f:
-            keys = json.load(f)
-    else:
-        iatikit.download.data()
-        keys = set()
-        for a in iatikit.data().activities:
-            if not a.id:
-                continue
-            keys.add(a.id)
-        keys = list(keys)
+def write(filename, content):
+    if filename == '':
+        filename = '~'
+    with open(Path(output_path, filename + '.json'), 'w') as f:
+        json.dump(content, f)
 
-    keylen = 1
-    done_dict = {}
+if __name__ == '__main__':
+    iatikit.download.data()
+    keys = set()
+    for a in iatikit.data().activities:
+        if not a.id:
+            continue
+        keys.add(a.id)
+
+    keys = [('', list(keys))]
+    output = []
     while True:
-        key_dict = defaultdict(list)
-        for id_ in keys:
-            sanitized_id = sanitize(id_)
-            key_dict[sanitized_id[:keylen]].append(id_)
-        keys = []
-        for k, v in key_dict.items():
-            if len(v) <= maxlen:
-                done_dict[k] = ('l', sorted(v))
-            else:
-                nextkeylen = 1
-                while True:
-                    nextv = list({i[:keylen + nextkeylen]: None for i in v}.keys())
-                    if len(nextv) > 1:
-                        done_dict[k] = ('n', sorted(nextv))
-                        break
-                    nextkeylen += 1
-                keys += v
         if keys == []:
             break
-        keylen += 1
-
-    del key_dict
-
-    for k, v in done_dict.items():
-        with open(Path(output_path, k + '.json'), 'w') as f:
-            json.dump(v, f)
+        k, v = keys.pop(0)
+        if len(v) <= maxlen:
+            # fewer than maxlen items, so this is a leaf
+            write(k, ('l', sorted(v)))
+        else:
+            # we need to split this up
+            keylen = len(k)
+            nextkeylen = 1
+            while True:
+                nextv = defaultdict(list)
+                for i in v:
+                    nextk = sanitize(i[:keylen + nextkeylen])
+                    nextv[nextk].append(i)
+                if len(nextv) > 1:
+                    break
+                nextkeylen += 1
+            keys = list(nextv.items()) + keys
+            write(k, ('i', sorted(nextv)))

@@ -1,16 +1,20 @@
 $(function () {
     var sanitize = function (inp) {
+        if (inp === '') {
+            return '~';
+        }
         return inp.replace(/[^\w\d-]/, '_').toUpperCase();
     }
 
     var search = function (inp, original) {
         $.get('/data/' + sanitize(inp) + '.json').done(function (resp) {
-            if (resp[0] === 'n') {
+            if (resp[0] === 'i') {
                 // we've hit an internal node
-                if (inp === original) {
-                    $('.output').html('<ul><li>' + resp[1].join('…</li><li>') + '…</li></ul>');
+                var suggestionLen = resp[1][0].length;
+                if (suggestionLen <= original.length) {
+                    return search(original.substr(0, suggestionLen), original);
                 } else {
-                    return search(original.substr(0, inp.length + 1), original);
+                    $('.output').html('<ul><li>' + resp[1].join('…</li><li>') + '…</li></ul>');
                 }
             } else {
                 var output = [];
@@ -32,10 +36,8 @@ $(function () {
 
     $('.activity-id').on('input', function (a) {
         var inp = $(this).val();
-        if (inp !== '') {
-            search(inp.substr(0, 1), inp);
-        } else {
-            $('.output').text('Start typing an identifier.');
-        }
+        search(inp.substr(0, 1), inp);
     });
+
+    search('', '');
 });
