@@ -29,7 +29,7 @@ while True:
     keys = []
     for k, v in key_dict.items():
         if len(v) <= maxlen:
-            done_dict[k] = v
+            done_dict[k] = sorted(v)
         else:
             keys += v
     if keys == []:
