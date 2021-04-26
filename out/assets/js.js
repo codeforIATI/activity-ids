@@ -27,10 +27,11 @@ $(function () {
     }
 
     $('.activity-id').on('input', function (a) {
-        $('.output').text('');
         var inp = $(this).val();
         if (inp !== '') {
             search(inp.substr(0, 1), inp);
+        } else {
+            $('.output').text('');
         }
     });
 });
