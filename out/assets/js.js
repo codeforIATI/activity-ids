@@ -1,6 +1,10 @@
 $(function () {
+    var sanitize = function (inp) {
+        return inp.replace(/[^\w\d-]/, '_').toUpperCase();
+    }
+
     var search = function (inp, original) {
-        $.get('/data/' + inp.toUpperCase() + '.json').done(function (resp) {
+        $.get('/data/' + sanitize(inp) + '.json').done(function (resp) {
             if (resp === true) {
                 // we've hit an internal node
                 if (inp === original) {
