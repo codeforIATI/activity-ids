@@ -14,23 +14,23 @@ $(function () {
                 if (suggestionLen <= original.length) {
                     return search(original.substr(0, suggestionLen), original);
                 } else {
-                    $('.output').html('<ul><li>' + resp[1].join('…</li><li>') + '…</li></ul>');
+                    $('.output').html('<ul class="list-group"><li class="list-group-item">' + resp[1].join('…</li><li class="list-group-item">') + '…</li></ul>');
                 }
             } else {
                 var output = [];
                 resp[1].forEach(function (r) {
                     if (r.toUpperCase().indexOf(original.toUpperCase()) === 0) {
-                        output.push('<li><a target="_blank" href="https://d-portal.org/q.html?aid=' + r + '">' + r + '</a></li>');
+                        output.push('<a class="list-group-item list-group-item-action" target="_blank" href="https://d-portal.org/q.html?aid=' + r + '">' + r + '</a>');
                     }
                 });
                 if (output.length === 0) {
-                    $('.output').text('Not found.');
+                    $('.output').html('<ul class="list-group"><li class="list-group-item">Not found.</li></ul>');
                 } else {
-                    $('.output').html('<ul>' + output.join('') + '</ul>');
+                    $('.output').html('<div class="list-group">' + output.join('') + '</div>');
                 }
             }
         }).fail(function () {
-            $('.output').text('Not found.');
+            $('.output').html('<ul class="list-group"><li class="list-group-item">Not found.</li></ul>');
         });
     }
 
