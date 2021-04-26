@@ -14,7 +14,7 @@ def sanitize(text):
 
 def write(filename, content):
     if filename == '':
-        filename = '~'
+        filename = 'empty'
     with open(Path(output_path, filename + '.json'), 'w') as f:
         json.dump(content, f)
 
@@ -26,26 +26,25 @@ if __name__ == '__main__':
             continue
         keys.add(a.id)
 
-    keys = [('', list(keys))]
-    output = []
+    tosplit = [('', list(keys))]
     while True:
-        if keys == []:
+        if tosplit == []:
             break
-        k, v = keys.pop(0)
+        k, v = tosplit.pop(0)
         if len(v) <= maxlen:
-            # fewer than maxlen items, so this is a leaf
             write(k, ('l', sorted(v)))
         else:
-            # we need to split this up
             keylen = len(k)
             nextkeylen = 1
             while True:
+                nextks = set()
                 nextv = defaultdict(list)
                 for i in v:
-                    nextk = sanitize(i[:keylen + nextkeylen])
-                    nextv[nextk].append(i)
+                    nextk = i[:keylen + nextkeylen]
+                    nextks.add(nextk)
+                    nextv[sanitize(nextk)].append(i)
                 if len(nextv) > 1:
                     break
                 nextkeylen += 1
-            keys = list(nextv.items()) + keys
-            write(k, ('i', sorted(nextv)))
+            tosplit = list(nextv.items()) + tosplit
+            write(k, ('i', sorted(list(nextks))))

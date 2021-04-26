@@ -1,7 +1,7 @@
 $(function () {
     var sanitize = function (inp) {
         if (inp === '') {
-            return '~';
+            return 'empty';
         }
         return inp.replace(/[^\w\d-]/, '_').toUpperCase();
     }
