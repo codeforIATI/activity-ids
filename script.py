@@ -14,7 +14,7 @@ def sanitize(text):
     return re.sub(r'[^\w\d-]', '_', text).upper()
 
 if __name__ == '__main__':
-    if len(sys.argv) > 1 and sys.argv[1] != '--fast':
+    if len(sys.argv) > 1 and sys.argv[1] == '--fast':
         with open(keys_path) as f:
             keys = json.load(f)
     else:
@@ -25,8 +25,6 @@ if __name__ == '__main__':
                 continue
             keys.add(a.id)
         keys = list(keys)
-        with open(keys_path, 'w') as f:
-            json.dump(keys, f)
 
     keylen = 1
     done_dict = {}
