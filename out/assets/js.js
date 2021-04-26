@@ -1,6 +1,6 @@
 $(function () {
     var search = function (inp, original) {
-        $.get('/data/' + inp + '.json').done(function (resp) {
+        $.get('/data/' + inp.toUpperCase() + '.json').done(function (resp) {
             if (resp === true) {
                 // we've hit an internal node
                 if (inp === original) {
