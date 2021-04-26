@@ -16,13 +16,13 @@ $(function () {
                 var output = [];
                 resp.forEach(function (r) {
                     if (r.toUpperCase().indexOf(original.toUpperCase()) === 0) {
-                        output.push('<a target="_blank" href="https://d-portal.org/q.html?aid=' + r + '">' + r + '</a>');
+                        output.push('<li><a target="_blank" href="https://d-portal.org/q.html?aid=' + r + '">' + r + '</a></li>');
                     }
                 });
                 if (output.length === 0) {
                     $('.output').text('Not found.');
                 } else {
-                    $('.output').html(output.join('<br>'));
+                    $('.output').html('<ul>' + output.join('') + '</ul>');
                 }
             }
         }).fail(function () {
@@ -35,7 +35,7 @@ $(function () {
         if (inp !== '') {
             search(inp.substr(0, 1), inp);
         } else {
-            $('.output').text('');
+            $('.output').text('Start typing an identifier.');
         }
     });
 });
