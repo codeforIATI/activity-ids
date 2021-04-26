@@ -13,11 +13,11 @@ def sanitize(text):
 
 iatikit.download.data()
 
-keys = []
+keys = set()
 for a in iatikit.data().activities:
     if not a.id:
         continue
-    keys.append(a.id)
+    keys.add(a.id)
 
 keylen = 1
 done_dict = {}
