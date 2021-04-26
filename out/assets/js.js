@@ -5,7 +5,7 @@ $(function () {
 
     var search = function (inp, original) {
         $.get('/data/' + sanitize(inp) + '.json').done(function (resp) {
-            if (resp[0] === 'nodes') {
+            if (resp[0] === 'n') {
                 // we've hit an internal node
                 if (inp === original) {
                     $('.output').html('<ul><li>' + resp[1].join('…</li><li>') + '…</li></ul>');

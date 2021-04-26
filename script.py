@@ -36,9 +36,15 @@ if __name__ == '__main__':
         keys = []
         for k, v in key_dict.items():
             if len(v) <= maxlen:
-                done_dict[k] = ('leaves', sorted(v))
+                done_dict[k] = ('l', sorted(v))
             else:
-                done_dict[k] = ('nodes', sorted({i[:keylen + 1]: None for i in v}.keys()))
+                nextkeylen = 1
+                while True:
+                    nextv = list({i[:keylen + nextkeylen]: None for i in v}.keys())
+                    if len(nextv) > 1:
+                        done_dict[k] = ('n', sorted(nextv))
+                        break
+                    nextkeylen += 1
                 keys += v
         if keys == []:
             break
