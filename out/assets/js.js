@@ -5,16 +5,16 @@ $(function () {
 
     var search = function (inp, original) {
         $.get('/data/' + sanitize(inp) + '.json').done(function (resp) {
-            if (resp === true) {
+            if (resp[0] === 'nodes') {
                 // we've hit an internal node
                 if (inp === original) {
-                    $('.output').text('More than 500 results found.');
+                    $('.output').html('<ul><li>' + resp[1].join('…</li><li>') + '…</li></ul>');
                 } else {
                     return search(original.substr(0, inp.length + 1), original);
                 }
             } else {
                 var output = [];
-                resp.forEach(function (r) {
+                resp[1].forEach(function (r) {
                     if (r.toUpperCase().indexOf(original.toUpperCase()) === 0) {
                         output.push('<li><a target="_blank" href="https://d-portal.org/q.html?aid=' + r + '">' + r + '</a></li>');
                     }
