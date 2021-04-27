@@ -6,29 +6,30 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="{{ site.description }}">
 
-    <meta property="og:site_name" content="">
+    <meta property="og:site_name" content="{{ site.title }}">
     <meta property="og:url" content="{{ site.github.url }}">
-    <meta property="og:title" content="Activity ID Checker">
+    <meta property="og:title" content="{{ site.title }}">
     <meta property="og:type" content="website">
-    <meta property="og:description" content="">
-    <meta property="og:image" content="">
+    <meta property="og:description" content="{{ site.description }}">
+    <meta property="og:image" content="{{ site.github.url }}/assets/logo-square.png?v={{ site.github.build_revision }}">
 
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Activity ID Checker" />
-    <meta name="twitter:description" content="">
-    <meta name="twitter:image" content="">
+    <meta name="twitter:title" content="{{ site.title }}" />
+    <meta name="twitter:description" content="{{ site.description }}">
+    <meta name="twitter:image" content="{{ site.github.url }}/assets/logo-square.png?v={{ site.github.build_revision }}">
 
+    <link rel="icon" href="/favicon.ico">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="/assets/css.css?ver={{ site.github.build_revision }}">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <title>Activity ID Checker</title>
+    <title>{{ site.title }}</title>
   </head>
   <body class="d-flex flex-column h-100">
     <header>
-        <nav class="navbar navbar-light bg-light navbar-expand"><div class="container"><a href="https://codeforiati.org" class="navbar-brand"><img width="100px" src="https://codeforiati.org/assets/img/logo.png" title="A project of Code for IATI"></a></div></nav>
+        <nav class="navbar navbar-light bg-light navbar-expand"><div class="container"><a href="https://codeforiati.org" class="navbar-brand"><img width="100px" src="/assets/logo.png" title="A project of Code for IATI"></a></div></nav>
     </header>
 
     <main role="main" class="flex-shrink-0">
