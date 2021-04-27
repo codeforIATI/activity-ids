@@ -18,7 +18,7 @@ $(function () {
                     resp[1].forEach(function (r) {
                         output.push('<a class="list-group-item list-group-item-action trigger-refresh" data-id="' + r + '" href="#' + r + '">' + r + '…</a>');
                     });
-                    $('.output').html('<div class="list-group">' + output.join('') + '</div>');
+                    $('.output').html('<div class="list-group list-group-flush">' + output.join('') + '</div>');
                 }
             } else {
                 var output = [];
@@ -28,13 +28,13 @@ $(function () {
                     }
                 });
                 if (output.length === 0) {
-                    $('.output').html('<ul class="list-group"><li class="list-group-item">Not found.</li></ul>');
+                    $('.output').html('<ul class="list-group list-group-flush"><li class="list-group-item">Not found.</li></ul>');
                 } else {
-                    $('.output').html('<div class="list-group">' + output.join('') + '</div>');
+                    $('.output').html('<div class="list-group list-group-flush">' + output.join('') + '</div>');
                 }
             }
         }).fail(function () {
-            $('.output').html('<ul class="list-group"><li class="list-group-item">Not found.</li></ul>');
+            $('.output').html('<ul class="list-group list-group-flush"><li class="list-group-item">Not found.</li></ul>');
         });
     }
 
