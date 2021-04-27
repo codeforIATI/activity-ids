@@ -16,7 +16,8 @@ $(function () {
                 } else {
                     var output = [];
                     resp[1].forEach(function (r) {
-                        output.push('<a class="list-group-item list-group-item-action trigger-refresh" data-id="' + r + '" href="#' + r + '">' + r + '…</a>');
+                        var sanitizedR = encodeURIComponent(r);
+                        output.push('<a class="list-group-item list-group-item-action trigger-refresh" data-id="' + sanitizedR + '" href="#' + sanitizedR + '">' + r + '…</a>');
                     });
                     $('.output').html('<div class="list-group list-group-flush">' + output.join('') + '</div>');
                 }
@@ -24,7 +25,8 @@ $(function () {
                 var output = [];
                 resp[1].forEach(function (r) {
                     if (r.toUpperCase().indexOf(original.toUpperCase()) === 0) {
-                        output.push('<a class="list-group-item list-group-item-action" data-id="' + r + '" target="_blank" href="https://d-portal.org/q.html?aid=' + r + '">' + r + '</a>');
+                        var sanitizedR = encodeURIComponent(r);
+                        output.push('<a class="list-group-item list-group-item-action" data-id="' + sanitizedR + '" target="_blank" href="https://d-portal.org/q.html?aid=' + sanitizedR + '">' + r + '</a>');
                     }
                 });
                 if (output.length === 0) {
