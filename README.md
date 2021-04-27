@@ -1,3 +1,5 @@
 # Activity ID checker
 
-A very simple activity ID lookup, using a sort of radix tree on disk.
+Check whether an IATI activity identifier exists in the IATI registry. The list is updated daily by a github action, using iatikit.
+
+Identifiers are stored in a radix tree type thing on github pages.

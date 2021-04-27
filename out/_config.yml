@@ -2,4 +2,4 @@ include:
   - _*.json
 
 title: Activity ID Checker
-description: Use this service to check whether an IATI activity identifier exists in the IATI registry. The list of all identifiers is updated daily.
+description: Check whether an IATI activity identifier exists in the IATI registry. The list of all identifiers is updated daily.
