@@ -63,6 +63,7 @@ $(function () {
         updateInput(inp);
         updateHash(inp);
         search(inp);
+        $('.activity-id').focus();
     });
 
     $(window).on('load popstate pushstate', function() {
