@@ -6,21 +6,25 @@ $(function () {
         return inp.replace(/[^\w\d-]/, '_').toUpperCase();
     }
 
-    var search = function (inp, original) {
+    var searchRecursive = function (inp, original) {
         $.get('/data/' + sanitize(inp) + '.json').done(function (resp) {
             if (resp[0] === 'i') {
                 // we've hit an internal node
                 var suggestionLen = resp[1][0].length;
                 if (suggestionLen <= original.length) {
-                    return search(original.substr(0, suggestionLen), original);
+                    return searchRecursive(original.substr(0, suggestionLen), original);
                 } else {
-                    $('.output').html('<ul class="list-group"><li class="list-group-item">' + resp[1].join('…</li><li class="list-group-item">') + '…</li></ul>');
+                    var output = [];
+                    resp[1].forEach(function (r) {
+                        output.push('<a class="list-group-item list-group-item-action trigger-refresh" data-id="' + r + '" href="#' + r + '">' + r + '…</a>');
+                    });
+                    $('.output').html('<div class="list-group">' + output.join('') + '</div>');
                 }
             } else {
                 var output = [];
                 resp[1].forEach(function (r) {
                     if (r.toUpperCase().indexOf(original.toUpperCase()) === 0) {
-                        output.push('<a class="list-group-item list-group-item-action" target="_blank" href="https://d-portal.org/q.html?aid=' + r + '">' + r + '</a>');
+                        output.push('<a class="list-group-item list-group-item-action" data-id="' + r + '" target="_blank" href="https://d-portal.org/q.html?aid=' + r + '">' + r + '</a>');
                     }
                 });
                 if (output.length === 0) {
@@ -34,10 +38,34 @@ $(function () {
         });
     }
 
+    var updateHash = function (newHash) {
+        history.pushState(null, null, '#' + newHash);
+    }
+
+    var updateInput = function (inp) {
+        $('.activity-id').val(inp);
+    }
+
+    var search = function (inp) {
+        searchRecursive(inp.substr(0, 1), inp);
+    }
+
     $('.activity-id').on('input', function (a) {
         var inp = $(this).val();
-        search(inp.substr(0, 1), inp);
+        updateHash(inp);
+        search(inp);
     });
 
-    search('', '');
+    $('main').on('click', '.trigger-refresh', function () {
+        var inp = String($(this).data('id'));
+        updateInput(inp);
+        updateHash(inp);
+        search(inp);
+    });
+
+    $(window).on('load popstate pushstate', function() {
+        var pageHash = window.location.hash.substr(1);
+        updateInput(pageHash);
+        search(pageHash);
+    });
 });
