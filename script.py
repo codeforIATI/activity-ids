@@ -9,6 +9,9 @@ import iatikit
 output_path = Path('out', 'data')
 maxlen = 500
 
+def letters_first(x):
+    return (not str.isalpha(x), x)
+
 def sanitize(text):
     return re.sub(r'[^\w\d-]', '_', text).upper()
 
@@ -32,7 +35,7 @@ if __name__ == '__main__':
             break
         k, v = tosplit.pop(0)
         if len(v) <= maxlen:
-            write(k, ('l', sorted(v)))
+            write(k, ('l', sorted(v, key=letters_first)))
         else:
             keylen = len(k)
             nextkeylen = 1
@@ -47,4 +50,4 @@ if __name__ == '__main__':
                     break
                 nextkeylen += 1
             tosplit = list(nextv.items()) + tosplit
-            write(k, ('i', sorted(list(nextks))))
+            write(k, ('i', sorted(list(nextks), key=letters_first)))
