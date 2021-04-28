@@ -59,7 +59,7 @@ $(function () {
                     var sanitizedR = encodeURIComponent(r);
                     output.push('<a class="list-group-item list-group-item-action" data-id="' + sanitizedR + '" href="#' + sanitizedR + '">' + r + more + '</a>');
                 });
-                $('.output').html('<div class="list-group list-group-flush results">' + output.join('') + '</div><small class="float-right">' + count + ' identifier' + plural + ' found</small>');
+                $('.output').html('<div class="list-group list-group-flush results">' + output.join('') + '</div><small class="float-right">' + Number(count).toLocaleString() + ' identifier' + plural + ' found</small>');
 
                 if (resp.length === 1 && resp[0] === inp) {
                     var urlInp = encodeURIComponent(inp);
