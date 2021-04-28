@@ -1,28 +1,24 @@
 import json
+import re
 from pathlib import Path
 from collections import defaultdict
-import urllib.parse
 
 import iatikit
 
-output_path = Path('out')
+output_path = Path('out', 'data')
 maxlen = 500
-
 
 def letters_first(x):
     return (not str.isalpha(x), x)
 
-
 def sanitize(text):
-    return urllib.parse.quote(text, safe='').upper()
-
+    return re.sub(r'[^\w\d-]', '_', text).upper()
 
 def write(filename, content):
     if filename == '':
         filename = 'empty'
-    with open(Path(output_path, 'data', filename + '.json'), 'w') as f:
+    with open(Path(output_path, filename + '.json'), 'w') as f:
         json.dump(content, f)
-
 
 if __name__ == '__main__':
     iatikit.download.data()
@@ -31,9 +27,6 @@ if __name__ == '__main__':
         if not a.id:
             continue
         keys.add(a.id)
-
-    # with open('~all_keys.json') as f:
-    #     keys = json.load(f)
 
     tosplit = [('', list(keys))]
     while True:
@@ -58,15 +51,3 @@ if __name__ == '__main__':
                 nextkeylen += 1
             tosplit = list(nextv.items()) + tosplit
             write(k, (count, sorted(list(nextks), key=letters_first)))
-
-    for k in keys:
-        k = urllib.parse.quote(k, safe='')
-        try:
-            with open(Path(output_path, 'api', k + '.json'), 'w') as f:
-                json.dump(True, f)
-        except OSError as exc:
-            if exc.errno == 36:
-                # long filename error. Skip it
-                continue
-            else:
-                raise
