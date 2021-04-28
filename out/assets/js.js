@@ -3,7 +3,7 @@ $(function () {
         if (inp === '') {
             return 'empty';
         }
-        return inp.replace(/[^\w\d-]/, '_').toUpperCase();
+        return encodeURIComponent(encodeURIComponent(inp.toUpperCase()));
     }
 
     var searchRecursive = function (inp, original, cb) {
