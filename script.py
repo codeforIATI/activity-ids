@@ -1,3 +1,4 @@
+import csv
 import json
 import re
 from pathlib import Path
@@ -5,7 +6,7 @@ from collections import defaultdict
 
 import iatikit
 
-output_path = Path('out', 'data')
+output_path = Path('out')
 maxlen = 500
 
 def letters_first(x):
@@ -17,7 +18,7 @@ def sanitize(text):
 def write(filename, content):
     if filename == '':
         filename = 'empty'
-    with open(Path(output_path, filename + '.json'), 'w') as f:
+    with open(Path(output_path, 'data', filename + '.json'), 'w') as f:
         json.dump(content, f)
 
 if __name__ == '__main__':
@@ -28,7 +29,8 @@ if __name__ == '__main__':
             continue
         keys.add(a.id)
 
-    tosplit = [('', list(keys))]
+    keys = list(keys)
+    tosplit = [('', keys)]
     while True:
         if tosplit == []:
             break
@@ -51,3 +53,11 @@ if __name__ == '__main__':
                 nextkeylen += 1
             tosplit = list(nextv.items()) + tosplit
             write(k, (count, sorted(list(nextks), key=letters_first)))
+
+    with open(Path(output_path, 'downloads', 'data.json'), 'w') as f:
+        json.dump(keys, f)
+
+    with open(Path(output_path, 'downloads', 'data.csv'), 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow(['Activity identifier'])
+        list(writer.writerow([k]) for k in keys)
