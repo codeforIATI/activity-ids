@@ -31,3 +31,7 @@
   padding-right: 15px;
   padding-left: 15px;
 }
+
+.form-control {
+  background-image: none !important;
+}

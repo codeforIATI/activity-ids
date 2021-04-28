@@ -1,6 +1,5 @@
 import json
 import re
-import sys
 from pathlib import Path
 from collections import defaultdict
 
@@ -34,7 +33,8 @@ if __name__ == '__main__':
         if tosplit == []:
             break
         k, v = tosplit.pop(0)
-        if len(v) <= maxlen:
+        count = len(v)
+        if count <= maxlen:
             write(k, ('l', sorted(v, key=letters_first)))
         else:
             keylen = len(k)
@@ -50,4 +50,4 @@ if __name__ == '__main__':
                     break
                 nextkeylen += 1
             tosplit = list(nextv.items()) + tosplit
-            write(k, ('i', sorted(list(nextks), key=letters_first)))
+            write(k, (count, sorted(list(nextks), key=letters_first)))
