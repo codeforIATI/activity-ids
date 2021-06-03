@@ -55,17 +55,23 @@ $(function () {
                 var more = (type === 'l') ? '' : '…';
                 var count = (type === 'l') ? resp.length : type;
                 var plural = (count === 1) ? '' : 's';
+                var success = false;
                 resp.forEach(function (r) {
+                    if (r === inp) {
+                        success = true;
+                    }
                     var sanitizedR = encodeURIComponent(r);
                     output.push('<a class="list-group-item list-group-item-action" data-id="' + sanitizedR + '" href="#' + sanitizedR + '">' + r + more + '</a>');
                 });
                 $('.output').html('<div class="list-group list-group-flush results">' + output.join('') + '</div><small class="float-right">' + Number(count).toLocaleString() + ' identifier' + plural + ' found</small>');
 
-                if (resp.length === 1 && resp[0] === inp) {
+                if (success) {
                     var urlInp = encodeURIComponent(inp);
-                    $('.list-group').hide();
+                    if (resp.length === 1) {
+                        $('.output').html('');
+                    }
                     $('.activity-id').addClass('is-valid');
-                    $('.output').html('<a class="btn btn-primary mt-2 float-right" href="https://d-portal.org/q.html?aid=' + urlInp + '" target="_blank">View on d-portal</a>');
+                    $('.output').append('<a class="btn btn-primary mt-2 float-left" href="https://d-portal.org/q.html?aid=' + urlInp + '" target="_blank">View on d-portal</a>');
                 }
             }
         });
