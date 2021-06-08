@@ -9,17 +9,21 @@ import iatikit
 output_path = Path('out')
 maxlen = 500
 
+
 def letters_first(x):
     return (not str.isalpha(x), x)
 
+
 def sanitize(text):
     return re.sub(r'[^\w\d-]', '_', text).upper()
+
 
 def write(filename, content):
     if filename == '':
         filename = 'empty'
     with open(Path(output_path, 'data', filename + '.json'), 'w') as f:
         json.dump(content, f)
+
 
 if __name__ == '__main__':
     iatikit.download.data()
