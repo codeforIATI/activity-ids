@@ -71,7 +71,7 @@ $(function () {
                         $('.output').html('');
                     }
                     $('.activity-id').addClass('is-valid');
-                    $('.output').append('<a class="btn btn-primary mt-2 float-left" href="https://d-portal.org/q.html?aid=' + urlInp + '" target="_blank">View on d-portal</a>');
+                    $('.output').append('<a class="btn btn-primary mt-2 float-left" href="https://d-portal.org/savi/?aid=' + urlInp + '" target="_blank">View on d-portal</a>');
                 }
             }
         });
