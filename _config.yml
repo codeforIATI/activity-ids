@@ -1,0 +1,12 @@
+defaults:
+  -
+    scope:
+      path: "" # an empty string here means all files in the project
+    values:
+      layout: "default"
+
+include:
+  - _*.json
+
+title: Activity ID Checker
+description: Check whether an IATI activity identifier exists in the IATI registry. The list of all identifiers is updated daily.
